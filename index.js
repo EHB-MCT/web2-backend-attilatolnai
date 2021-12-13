@@ -1,8 +1,10 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
 
-app.use(express.static('public'))
+app.use(express.static('public'));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.redirect('/info.html')
@@ -31,6 +33,11 @@ app.get('/dataMarket', (req, res) => {
     res.send(testPerson)
     //res.send('you are getting data from testPerson!')
   })
+
+  app.post('/savePerson', (req,res) =>{
+    console.log(req.body);
+    res.send(`Data received with ${req.body.pin_name}!`)
+  });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
