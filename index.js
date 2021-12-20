@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
   res.redirect('/info.html')
 })
 
+//get all fleamarket data from dataMarket
 app.get('/dataMarket', (req, res) => {
     //API data I want for each fleamarket
     let testMarket = {
