@@ -50,7 +50,7 @@ app.get('/dataMarket', async (req, res) => {
     //res.send('you are getting data from testMarket!')
   });
 
-  app.get('/dataPerson', (req, res) => {
+  app.get('/dataPerson', async (req, res) => {
     try{
       await client.connect();
       //retrieve all data from the collection "persons" from the database "courseProject"
@@ -78,7 +78,7 @@ app.get('/dataMarket', async (req, res) => {
     // }
     // res.send(testPerson)
     //res.send('you are getting data from testPerson!')
-  })
+  });
 
   app.post('/saveMarket', async (req,res) =>{
     if(!req.body.name || !req.body.location || !req.body.date || !req.body.time){
