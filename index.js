@@ -21,14 +21,33 @@ app.get('/', (req, res) => {
 
 app.get('/dataMarket', (req, res) => {
     //API data I want for each fleamarket
-    let testMarket = {
-        name: "Fleamarket Brussel",
-        location: "Bd Sylvain Dupuis 433, 1070 Brussels",
-        date: "19/12/2021",
-        time: "7h - 15h"
-    }
-    res.send(testMarket)
+    // let testMarket = {
+    //     name: "Fleamarket Brussel",
+    //     location: "Bd Sylvain Dupuis 433, 1070 Brussels",
+    //     date: "19/12/2021",
+    //     time: "7h - 15h"
+    // }
+    //res.send(testMarket)
     //res.send('you are getting data from testMarket!')
+    try{
+      //connect to the db
+      await client.connect();
+
+      //retrieve the challenges collection data
+      const colli = client.db('courseProject').collection('fleamarkets');
+      const chs = await colli.find({}).toArray();
+
+      //Send back the data with the response
+  res.status(200).send(chs);
+  }catch(error){
+      console.log(error)
+      res.status(500).send({
+          error: 'Something went wrong',
+          value: error
+      });
+  }finally {
+      await client.close();
+  }
   })
 
   app.get('/dataPerson', (req, res) => {
