@@ -51,14 +51,32 @@ app.get('/dataMarket', async (req, res) => {
   });
 
   app.get('/dataPerson', (req, res) => {
-    //API data I want for each fleamarket
-    let testPerson = {
-        pin_name: "lot 1",
-        tags: "games, books, bike, clothes",
-        description: "A lot of videogames, some children books, a kid sized bike and M sized clothes",
-        pin_location: "50.83801363908659, 4.2867502898428445"
+    try{
+      await client.connect();
+      //retrieve all data from the collection "persons" from the database "courseProject"
+      const colli = client.db('courseProject').collection('persons');
+      const chs = await colli.find({}).toArray();
+
+      //Sending the data from the collection with the response
+      res.status(200).send(chs);
+    }catch(error){
+      //If there is an error this will catch it
+      console.log(error)
+      res.status(500).send({
+        error: 'Something went wrong',
+        value: error
+      });
+    }finally{
+      await client.close();
     }
-    res.send(testPerson)
+    //example data:
+    // let testPerson = {
+    //     pin_name: "lot 1",
+    //     tags: "games, books, bike, clothes",
+    //     description: "A lot of videogames, some children books, a kid sized bike and M sized clothes",
+    //     pin_location: "50.83801363908659, 4.2867502898428445"
+    // }
+    // res.send(testPerson)
     //res.send('you are getting data from testPerson!')
   })
 
