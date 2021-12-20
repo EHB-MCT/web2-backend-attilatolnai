@@ -62,9 +62,16 @@ app.get('/dataMarket', async (req, res) => {
     //res.send('you are getting data from testPerson!')
   })
 
+  app.post('/saveMarket', (req,res) =>{
+    console.log(req.body);
+    res.send(`Data received with id: ${req.body._id}, name: ${req.body.name}, 
+    location: ${req.body.location}, date: ${req.body.date} and time: ${req.body.time} !`)
+  });
+
   app.post('/savePerson', (req,res) =>{
     console.log(req.body);
-    res.send(`Data received with ${req.body.pin_name}!`)
+    res.send(`Data received with id: ${req.body._id}, pin name: ${req.body.pin_name}, 
+    tags: ${req.body.tags}, description: ${req.body.description} and pin location: ${req.body.pin_location} !`)
   });
 
 app.listen(port, () => {
