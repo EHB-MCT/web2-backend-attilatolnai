@@ -63,8 +63,8 @@ app.get('/dataMarket', async (req, res) => {
   })
 
   app.post('/saveMarket', async (req,res) =>{
-    if(!req.body._id || !req.body.name || !req.body.location || !req.body.date || !req.body.time){
-      res.status(400).send('Bad request: missing id, name, location, date or time');
+    if(!req.body.name || !req.body.location || !req.body.date || !req.body.time){
+      res.status(400).send('Bad request: missing name, location, date or time');
       return;
     }
     try{
