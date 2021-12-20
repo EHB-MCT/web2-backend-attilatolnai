@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {MongoClient} = require('mongodb');
 require('dotenv').config();
-const app = express()
+const app = express();
+const cors = require('cors');
 //const port = 3000
 
 const client =  new MongoClient(process.env.MONGO_URL);
@@ -12,6 +13,7 @@ const port = process.env.PORT || 1337;
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.redirect('/info.html')
