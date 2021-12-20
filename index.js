@@ -20,17 +20,35 @@ app.get('/', (req, res) => {
 })
 
 //get all fleamarket data from dataMarket
-app.get('/dataMarket', (req, res) => {
-    //API data I want for each fleamarket
-    let testMarket = {
-        name: "Fleamarket Brussel",
-        location: "Bd Sylvain Dupuis 433, 1070 Brussels",
-        date: "19/12/2021",
-        time: "7h - 15h"
+app.get('/dataMarket', async (req, res) => {
+    try{
+      await client.connect();
+      //retrieve all data from the collection "fleamarkets" from the database "courseProject"
+      const colli = client.db('courseProject').collection('fleamarkets');
+      const chs = await colli.find({}).toArray();
+
+      //Sending the data from the collection with the response
+      res.status(200).send(chs);
+    }catch(error){
+      //If there is an error this will catch it
+      console.log(error)
+      res.status(500).send({
+        error: 'Something went wrong',
+        value: error
+      });
+    }finally{
+      await client.close();
     }
-    res.send(testMarket)
+    //example data:
+    //let testMarket = {
+    //     name: "Fleamarket Brussel",
+    //     location: "Bd Sylvain Dupuis 433, 1070 Brussels",
+    //     date: "19/12/2021",
+    //     time: "7h - 15h"
+    // }
+    // res.send(testMarket)
     //res.send('you are getting data from testMarket!')
-  })
+  });
 
   app.get('/dataPerson', (req, res) => {
     //API data I want for each fleamarket
