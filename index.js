@@ -110,7 +110,7 @@ app.get('/dataMarket', async (req, res) => {
     //res.send(`Data received with id: ${req.body._id}, name: ${req.body.name}, location: ${req.body.location}, date: ${req.body.date} and time: ${req.body.time} !`)
   });
 
-  app.post('/savePerson', (req,res) =>{
+  app.post('/savePerson', async (req,res) =>{
     if(!req.body.pin_name || !req.body.tags || !req.body.description || !req.body.pin_location){
       res.status(400).send('Bad request: missing pin name, tags, description or pin location');
       return;
