@@ -19,7 +19,9 @@ app.get('/', (req, res) => {
   res.redirect('/info.html')
 })
 
-//get all fleamarket data from dataMarket
+
+//----------------------------------------GET-------------------------------------------------------------
+//get all fleamarket data from the database => DONE AND WORKING
 app.get('/dataMarket', async (req, res) => {
     try{
       await client.connect();
@@ -44,7 +46,7 @@ app.get('/dataMarket', async (req, res) => {
     //res.send(testMarket)
     //res.send('you are getting data from testMarket!')
   });
-
+  //get all persons data from the database => DONE AND WORKING
   app.get('/dataPerson', async (req, res) => {
     try{
       await client.connect();
@@ -70,6 +72,8 @@ app.get('/dataMarket', async (req, res) => {
     //res.send('you are getting data from testPerson!')
   });
 
+//----------------------------------------POST-------------------------------------------------------------
+  //create a new fleamarket and add it to the database => DONE AND WORKING
   app.post('/saveMarket', async (req,res) =>{
     if(!req.body.name || !req.body.location || !req.body.date || !req.body.time){
       res.status(400).send('Bad request: missing name, location, date or time');
@@ -109,7 +113,7 @@ app.get('/dataMarket', async (req, res) => {
     //console.log(req.body);
     //res.send(`Data received with id: ${req.body._id}, name: ${req.body.name}, location: ${req.body.location}, date: ${req.body.date} and time: ${req.body.time} !`)
   });
-
+  //create a new person and add it to the database => DONE AND WORKING
   app.post('/savePerson', async (req,res) =>{
     if(!req.body.pin_name || !req.body.tags || !req.body.description || !req.body.pin_location){
       res.status(400).send('Bad request: missing pin name, tags, description or pin location');
@@ -150,6 +154,14 @@ app.get('/dataMarket', async (req, res) => {
     //res.send(`Data received with id: ${req.body._id}, pin name: ${req.body.pin_name}, 
     //tags: ${req.body.tags}, description: ${req.body.description} and pin location: ${req.body.pin_location} !`)
   });
+
+  //----------------------------------------UPDATE-------------------------------------------------------------
+  //app.update('/updateMarket', async (req,res) => {})
+  //app.update('/updatePerson', async (req,res) => {})
+
+  //----------------------------------------DELETE-------------------------------------------------------------
+  //app.delete('/deleteMarket', async (req,res) => {})
+  //app.delete('/deletePerson', async (req,res) => {})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
