@@ -40,13 +40,8 @@ app.get('/dataMarket', async (req, res) => {
       await client.close();
     }
     //example data:
-    //let testMarket = {
-    //     name: "Fleamarket Brussel",
-    //     location: "Bd Sylvain Dupuis 433, 1070 Brussels",
-    //     date: "19/12/2021",
-    //     time: "7h - 15h"
-    // }
-    // res.send(testMarket)
+    //let testMarket = {name: "Fleamarket Brussel", location: "Bd Sylvain Dupuis 433, 1070 Brussels", date: "19/12/2021", time: "7h - 15h"}
+    //res.send(testMarket)
     //res.send('you are getting data from testMarket!')
   });
 
@@ -70,13 +65,8 @@ app.get('/dataMarket', async (req, res) => {
       await client.close();
     }
     //example data:
-    // let testPerson = {
-    //     pin_name: "lot 1",
-    //     tags: "games, books, bike, clothes",
-    //     description: "A lot of videogames, some children books, a kid sized bike and M sized clothes",
-    //     pin_location: "50.83801363908659, 4.2867502898428445"
-    // }
-    // res.send(testPerson)
+    //let testPerson = {pin_name: "lot 1", tags: "games, books, bike, clothes", description: "A lot of videogames, some children books, a kid sized bike and M sized clothes", pin_location: "50.83801363908659, 4.2867502898428445"}
+    //res.send(testPerson)
     //res.send('you are getting data from testPerson!')
   });
 
@@ -117,14 +107,48 @@ app.get('/dataMarket', async (req, res) => {
       await client.close();
     }
     //console.log(req.body);
-    //res.send(`Data received with id: ${req.body._id}, name: ${req.body.name}, 
-    //location: ${req.body.location}, date: ${req.body.date} and time: ${req.body.time} !`)
+    //res.send(`Data received with id: ${req.body._id}, name: ${req.body.name}, location: ${req.body.location}, date: ${req.body.date} and time: ${req.body.time} !`)
   });
 
   app.post('/savePerson', (req,res) =>{
-    console.log(req.body);
-    res.send(`Data received with id: ${req.body._id}, pin name: ${req.body.pin_name}, 
-    tags: ${req.body.tags}, description: ${req.body.description} and pin location: ${req.body.pin_location} !`)
+    if(!req.body.pin_name || !req.body.tags || !req.body.description || !req.body.pin_location){
+      res.status(400).send('Bad request: missing pin name, tags, description or pin location');
+      return;
+    }
+    try{
+      await client.connect();
+       //retrieve all data from the collection "persons" from the database "courseProject"
+       const colli = client.db('courseProject').collection('persons');
+       //check if there isn't a person with the same pin name and pin location
+       const bg = await colli.findOne({name: req.body.pin_name, location: req.body.pin_location});
+       if(bg){
+         res.status(400).send(`Bad request: There is already a pin with the name ${req.body.name} at ${req.body.location}`);
+         return;
+       }
+       //create a new person
+       let newPerson = {
+        pin_name: req.body.pin_name,
+        tags: req.body.tags,
+        description: req.body.description,
+        pin_location: req.body.pin_location
+       }
+       //Insert the new person into the database
+       let insertResult = await colli.insertOne(newPerson);
+       //Send back a successfull message if inserted successfully
+       res.status(201).json(newPerson);
+       return;
+    }catch(error){
+      console.log(error);
+      res.status(500).send({
+        error: 'Something went wrong',
+        value: error
+      });
+    }finally{
+      await client.close();
+    }
+    //console.log(req.body);
+    //res.send(`Data received with id: ${req.body._id}, pin name: ${req.body.pin_name}, 
+    //tags: ${req.body.tags}, description: ${req.body.description} and pin location: ${req.body.pin_location} !`)
   });
 
 app.listen(port, () => {
