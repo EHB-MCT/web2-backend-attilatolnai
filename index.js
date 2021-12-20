@@ -31,11 +31,11 @@ app.get('/dataMarket', (req, res) => {
     //res.send('you are getting data from testMarket!')
     try{
       //connect to the db
-      await client.connect();
+      client.connect();
 
       //retrieve the challenges collection data
       const colli = client.db('courseProject').collection('fleamarkets');
-      const chs = await colli.find({}).toArray();
+      const chs = colli.find({}).toArray();
 
       //Send back the data with the response
   res.status(200).send(chs);
@@ -46,7 +46,7 @@ app.get('/dataMarket', (req, res) => {
           value: error
       });
   }finally {
-      await client.close();
+      client.close();
   }
   })
 
