@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const {MongoClient} = require('mongodb');
+const {MongoClient, ObjectId} = require('mongodb');
 require('dotenv').config();
 const app = express();
 const cors = require('cors');
@@ -156,7 +156,46 @@ app.get('/dataMarket', async (req, res) => {
   });
 
   //----------------------------------------UPDATE-------------------------------------------------------------
-  //app.update('/updateMarket', async (req,res) => {})
+  app.put('/dataMarket/:id', async (req,res) => {
+    if(!req.body.name || !req.body.location || !req.body.date || !req.body.time){
+      res.status(400).send('Bad request: missing name, location, date or time');
+      return;
+    }
+    if(req.params.id){
+      res.status(400).send('Bad request: missing name, location, date or time');
+      return;
+    }
+    try{
+      await client.connect();
+      const colli = client.db('courseProject').collection('fleamarkets');
+      const bg = await colli.findOne({_id: ObjectId(req.params.id)});
+      if(!bg){
+      res.status(400).send(`Bad request: fleamarket with id ${req.params.id} does not exist`);
+      return;
+      }
+
+      let newMarket = {
+        name: req.body.name,
+        location: req.body.location,
+        date: req.body.date,
+        time: req.body.time
+       }
+       let updateResult = await colli.updateOne({_id: ObjectId(req.params.id)},
+       {$set: newMarket});
+
+       res.status(201).json(updateResult);
+       return;
+    }catch(error){
+      console.log(error);
+      res.status(500).send({
+          error: 'Something went wrong',
+          value: error
+      });
+    }finally{
+      await client.close();
+    }
+  });
+  
   //app.update('/updatePerson', async (req,res) => {})
 
   //----------------------------------------DELETE-------------------------------------------------------------
