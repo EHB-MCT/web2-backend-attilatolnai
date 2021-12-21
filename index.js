@@ -72,7 +72,7 @@ app.get('/dataMarket', async (req, res) => {
     //res.send('you are getting data from testPerson!')
   });
   //get data by id
-  app.get('/challenges/:id', async (req,res) => {
+  app.get('/dataMarket/:id', async (req,res) => {
     //id is located in the query: req.params.id
     try{
         //connect to the db
