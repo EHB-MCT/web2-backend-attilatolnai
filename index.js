@@ -103,7 +103,39 @@ app.get('/dataMarket', async (req, res) => {
     }finally {
         await client.close();
     }
-});
+  });
+  app.get('/dataPerson/:id', async (req,res) => {
+    //id is located in the query: req.params.id
+    try{
+        //connect to the db
+        await client.connect();
+
+        //retrieve the boardgame collection data
+        const colli = client.db('courseProject').collection('persons');
+
+        //only look for a challenge with this ID
+        const query = { _id: ObjectId(req.params.id)};
+
+        const market = await colli.findOne(query);
+
+        if(market){
+            //Send back the file
+              res.status(200).send(market);
+            return;
+        }else{
+            res.status(400).send('Person could not be found with id: ' + req.params.id);
+        }
+      
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    }finally {
+        await client.close();
+    }
+  });
 
 //----------------------------------------POST-------------------------------------------------------------
   //create a new fleamarket and add it to the database => DONE AND WORKING
