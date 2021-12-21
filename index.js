@@ -86,7 +86,7 @@ app.get('/dataMarket', async (req, res) => {
 
         const market = await colli.findOne(query);
 
-        if(challenge){
+        if(market){
             //Send back the file
               res.status(200).send(market);
             return;
