@@ -91,7 +91,7 @@ app.get('/dataMarket', async (req, res) => {
               res.status(200).send(market);
             return;
         }else{
-            res.status(400).send(`Fleamarket with id:${req.params.id} could not be found ` );
+            res.status(400).send('Fleamarket could not be found with id: ' + req.params.id);
         }
       
     }catch(error){
