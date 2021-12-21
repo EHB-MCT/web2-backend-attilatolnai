@@ -162,7 +162,7 @@ app.get('/dataMarket', async (req, res) => {
       return;
     }
     if(!req.params.id){
-      res.status(400).send('Bad request: missing name, location, date or time');
+      res.status(400).send('Bad request: missing id');
       return;
     }
     try{
