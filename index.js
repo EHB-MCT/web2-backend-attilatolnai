@@ -161,7 +161,7 @@ app.get('/dataMarket', async (req, res) => {
       res.status(400).send('Bad request: missing name, location, date or time');
       return;
     }
-    if(req.params.id){
+    if(!req.params.id){
       res.status(400).send('Bad request: missing name, location, date or time');
       return;
     }
@@ -195,7 +195,7 @@ app.get('/dataMarket', async (req, res) => {
       await client.close();
     }
   });
-  
+
   //app.update('/updatePerson', async (req,res) => {})
 
   //----------------------------------------DELETE-------------------------------------------------------------
