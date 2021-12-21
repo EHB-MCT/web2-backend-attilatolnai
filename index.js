@@ -79,7 +79,7 @@ app.get('/dataMarket', async (req, res) => {
         await client.connect();
 
         //retrieve the boardgame collection data
-        const colli = client.db('courseProject').collection('fleamarket');
+        const colli = client.db('courseProject').collection('fleamarkets');
 
         //only look for a challenge with this ID
         const query = { _id: ObjectId(req.params.id)};
