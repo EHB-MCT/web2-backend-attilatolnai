@@ -71,7 +71,7 @@ app.get('/dataMarket', async (req, res) => {
     //res.send(testPerson)
     //res.send('you are getting data from testPerson!')
   });
-  //get data by id
+  //get fleamarket data by id => DONE AND WORKING (ON HEROKU, DOESNT WORK IN POSTMAN)
   app.get('/dataMarket/:id', async (req,res) => {
     //id is located in the query: req.params.id
     try{
@@ -104,6 +104,7 @@ app.get('/dataMarket', async (req, res) => {
         await client.close();
     }
   });
+  //get person data by id => DONE AND WORKING (ON HEROKU, DOESNT WORK IN POSTMAN)
   app.get('/dataPerson/:id', async (req,res) => {
     //id is located in the query: req.params.id
     try{
@@ -221,45 +222,45 @@ app.get('/dataMarket', async (req, res) => {
   });
 
   //----------------------------------------UPDATE-------------------------------------------------------------
-  // app.put('/dataMarket/:id', async (req,res) => {
-  //   if(!req.body.name || !req.body.location || !req.body.date || !req.body.time){
-  //     res.status(400).send('Bad request: missing name, location, date or time');
-  //     return;
-  //   }
-  //   if(!req.params.id){
-  //     res.status(400).send('Bad request: missing id');
-  //     return;
-  //   }
-  //   try{
-  //     await client.connect();
-  //     const colli = client.db('courseProject').collection('fleamarkets');
-  //     const bg = await colli.findOne({_id: ObjectId(req.params.id)});
-  //     if(!bg){
-  //     res.status(400).send(`Bad request: fleamarket with id ${req.params.id} does not exist`);
-  //     return;
-  //     }
+  app.put('/dataMarket/:id', async (req,res) => {
+    if(!req.body.name || !req.body.location || !req.body.date || !req.body.time){
+      res.status(400).send('Bad request: missing name, location, date or time');
+      return;
+    }
+    if(!req.params.id){
+      res.status(400).send('Bad request: missing id');
+      return;
+    }
+    try{
+      await client.connect();
+      const colli = client.db('courseProject').collection('fleamarkets');
+      const bg = await colli.findOne({_id: ObjectId(req.params.id)});
+      if(!bg){
+      res.status(400).send(`Bad request: fleamarket with id ${req.params.id} does not exist`);
+      return;
+      }
 
-  //     let newMarket = {
-  //       name: req.body.name,
-  //       location: req.body.location,
-  //       date: req.body.date,
-  //       time: req.body.time
-  //      }
-  //      let updateResult = await colli.updateOne({_id: ObjectId(req.params.id)},
-  //      {$set: newMarket});
+      let newMarket = {
+        name: req.body.name,
+        location: req.body.location,
+        date: req.body.date,
+        time: req.body.time
+       }
+       let updateResult = await colli.updateOne({_id: ObjectId(req.params.id)},
+       {$set: newMarket});
 
-  //      res.status(201).json(updateResult);
-  //      return;
-  //   }catch(error){
-  //     console.log(error);
-  //     res.status(500).send({
-  //         error: 'Something went wrong',
-  //         value: error
-  //     });
-  //   }finally{
-  //     await client.close();
-  //   }
-  // });
+       res.status(201).json(updateResult);
+       return;
+    }catch(error){
+      console.log(error);
+      res.status(500).send({
+          error: 'Something went wrong',
+          value: error
+      });
+    }finally{
+      await client.close();
+    }
+  });
 
   //app.update('/updatePerson', async (req,res) => {})
 
