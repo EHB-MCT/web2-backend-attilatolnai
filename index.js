@@ -222,6 +222,7 @@ app.get('/dataMarket', async (req, res) => {
   });
 
   //----------------------------------------UPDATE-------------------------------------------------------------
+  //Update an existing fleamarket => DONE AND WORKING
   app.put('/dataMarket/:id', async (req,res) => {
     if(!req.body.name || !req.body.location || !req.body.date || !req.body.time){
       res.status(400).send('Bad request: missing name, location, date or time');
@@ -261,7 +262,7 @@ app.get('/dataMarket', async (req, res) => {
       await client.close();
     }
   });
-
+  //Update an existing fleamarket => DONE AND WORKING
   app.put('/dataPerson/:id', async (req,res) => {
     if(!req.body.pin_name || !req.body.tags || !req.body.description || !req.body.pin_location){
       res.status(400).send('Bad request: missing pin name, tags, description or pin location');
