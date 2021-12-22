@@ -141,8 +141,8 @@ app.get('/dataMarket', async (req, res) => {
 //----------------------------------------POST-------------------------------------------------------------
   //create a new fleamarket and add it to the database => DONE AND WORKING
   app.post('/saveMarket', async (req,res) =>{
-    if(!req.body.name || !req.body.location || !req.body.date || !req.body.time){
-      res.status(400).send('Bad request: missing name, location, date or time');
+    if(!req.body.name || !req.body.location || !req.body.date || !req.body.time || !req.body.longitude || !req.body.latitude){
+      res.status(400).send('Bad request: missing name, location, date, time, longitude or latitude');
       return;
     }
     try{
@@ -160,7 +160,9 @@ app.get('/dataMarket', async (req, res) => {
         name: req.body.name,
         location: req.body.location,
         date: req.body.date,
-        time: req.body.time
+        time: req.body.time,
+        longitude: req.body.longitude,
+        latitude: req.body.latitude
        }
        //Insert the new fleamarket into the database
        let insertResult = await colli.insertOne(newMarket);
@@ -224,7 +226,7 @@ app.get('/dataMarket', async (req, res) => {
   //----------------------------------------UPDATE-------------------------------------------------------------
   //Update an existing fleamarket => DONE AND WORKING
   app.put('/dataMarket/:id', async (req,res) => {
-    if(!req.body.name || !req.body.location || !req.body.date || !req.body.time){
+    if(!req.body.name || !req.body.location || !req.body.date || !req.body.time || !req.body.longitude || !req.body.latitude){
       res.status(400).send('Bad request: missing name, location, date or time');
       return;
     }
@@ -245,7 +247,9 @@ app.get('/dataMarket', async (req, res) => {
         name: req.body.name,
         location: req.body.location,
         date: req.body.date,
-        time: req.body.time
+        time: req.body.time,
+        longitude: req.body.longitude,
+        latitude: req.body.latitude
        }
        let updateResult = await colli.updateOne({_id: ObjectId(req.params.id)},
        {$set: newMarket});
