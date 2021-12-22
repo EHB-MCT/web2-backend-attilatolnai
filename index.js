@@ -46,6 +46,7 @@ app.get('/dataMarket', async (req, res) => {
     //res.send(testMarket)
     //res.send('you are getting data from testMarket!')
   });
+
   //get all persons data from the database => DONE AND WORKING
   app.get('/dataPerson', async (req, res) => {
     try{
@@ -71,6 +72,7 @@ app.get('/dataMarket', async (req, res) => {
     //res.send(testPerson)
     //res.send('you are getting data from testPerson!')
   });
+
   //get fleamarket data by id => DONE AND WORKING (ON HEROKU, DOESNT WORK IN POSTMAN)
   app.get('/dataMarket/:id', async (req,res) => {
     //id is located in the query: req.params.id
@@ -104,6 +106,7 @@ app.get('/dataMarket', async (req, res) => {
         await client.close();
     }
   });
+
   //get person data by id => DONE AND WORKING (ON HEROKU, DOESNT WORK IN POSTMAN)
   app.get('/dataPerson/:id', async (req,res) => {
     //id is located in the query: req.params.id
@@ -138,6 +141,11 @@ app.get('/dataMarket', async (req, res) => {
     }
   });
 
+
+
+  
+
+  
 //----------------------------------------POST-------------------------------------------------------------
   //create a new fleamarket and add it to the database => DONE AND WORKING
   app.post('/saveMarket', async (req,res) =>{
