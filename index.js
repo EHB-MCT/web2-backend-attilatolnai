@@ -262,7 +262,45 @@ app.get('/dataMarket', async (req, res) => {
     }
   });
 
-  //app.update('/updatePerson', async (req,res) => {})
+  app.put('/dataPerson/:id', async (req,res) => {
+    if(!req.body.pin_name || !req.body.tags || !req.body.description || !req.body.pin_location){
+      res.status(400).send('Bad request: missing pin name, tags, description or pin location');
+      return;
+    }
+    if(!req.params.id){
+      res.status(400).send('Bad request: missing id');
+      return;
+    }
+    try{
+      await client.connect();
+      const colli = client.db('courseProject').collection('persons');
+      const bg = await colli.findOne({_id: ObjectId(req.params.id)});
+      if(!bg){
+      res.status(400).send(`Bad request: person with id ${req.params.id} does not exist`);
+      return;
+      }
+
+      let newPerson = {
+        pin_name: req.body.pin_name,
+        tags: req.body.tags,
+        description: req.body.description,
+        pin_location: req.body.pin_location
+       }
+       let updateResult = await colli.updateOne({_id: ObjectId(req.params.id)},
+       {$set: newPerson});
+
+       res.status(201).json(updateResult);
+       return;
+    }catch(error){
+      console.log(error);
+      res.status(500).send({
+          error: 'Something went wrong',
+          value: error
+      });
+    }finally{
+      await client.close();
+    }
+  });
 
   //----------------------------------------DELETE-------------------------------------------------------------
   //app.delete('/deleteMarket', async (req,res) => {})
