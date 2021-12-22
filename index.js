@@ -183,8 +183,8 @@ app.get('/dataMarket', async (req, res) => {
   });
   //create a new person and add it to the database => DONE AND WORKING
   app.post('/savePerson', async (req,res) =>{
-    if(!req.body.pin_name || !req.body.tags || !req.body.description || !req.body.pin_location){
-      res.status(400).send('Bad request: missing pin name, tags, description or pin location');
+    if(!req.body.pin_name || !req.body.tags || !req.body.description || !req.body.pin_latitude || !req.body.pin_longitude){
+      res.status(400).send('Bad request: missing pin name, tags, description, pin_latitude or pin_longitude');
       return;
     }
     try{
@@ -202,7 +202,8 @@ app.get('/dataMarket', async (req, res) => {
         pin_name: req.body.pin_name,
         tags: req.body.tags,
         description: req.body.description,
-        pin_location: req.body.pin_location
+        pin_latitude: req.body.pin_latitude,
+        pin_longitude: req.body.pin_longitude
        }
        //Insert the new person into the database
        let insertResult = await colli.insertOne(newPerson);
@@ -268,7 +269,7 @@ app.get('/dataMarket', async (req, res) => {
   });
   //Update an existing fleamarket => DONE AND WORKING
   app.put('/dataPerson/:id', async (req,res) => {
-    if(!req.body.pin_name || !req.body.tags || !req.body.description || !req.body.pin_location){
+    if(!req.body.pin_name || !req.body.tags || !req.body.description || !req.body.pin_latitude || !req.body.pin_longitude){
       res.status(400).send('Bad request: missing pin name, tags, description or pin location');
       return;
     }
@@ -289,7 +290,8 @@ app.get('/dataMarket', async (req, res) => {
         pin_name: req.body.pin_name,
         tags: req.body.tags,
         description: req.body.description,
-        pin_location: req.body.pin_location
+        pin_latitude: req.body.pin_latitude,
+        pin_longitude: req.body.pin_longitude
        }
        let updateResult = await colli.updateOne({_id: ObjectId(req.params.id)},
        {$set: newPerson});
