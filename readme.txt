@@ -39,6 +39,9 @@ https://studio.mapbox.com/styles/tiladehun/ckxhpvz30iysa15s9u2kon835/edit/#14.49
 (Updates every month, used the locations for my design & to fill my database on MongoDB
 https://www.quefaire.be/brocantes/region-de-bruxelles
 
+Url to XD:
+-Wireframe: https://xd.adobe.com/view/9596d2f9-bea7-467e-805b-7d6edd79c465-c0c5/
+-Design: https://xd.adobe.com/view/ea46c81d-35e5-4a2d-9c36-baf73cb14c78-bf15/
 
 
 
