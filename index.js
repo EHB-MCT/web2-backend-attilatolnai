@@ -318,7 +318,7 @@ app.get('/dataMarket', async (req, res) => {
   });
 
   //----------------------------------------DELETE-------------------------------------------------------------
-  //Delete an existing fleamarket via ID
+  //Delete an existing fleamarket via ID => DONE AND WORKING
   app.delete('/dataMarket/:id', async (req,res) => {
     if(!req.params.id){
       res.status(400).send(`Bad request: fleamarket with id ${req.params.id} does not exist`);
@@ -341,7 +341,7 @@ app.get('/dataMarket', async (req, res) => {
         await client.close();
     }
 });
-//Delete an existing person via ID
+//Delete an existing person via ID => DONE AND WORKING
   app.delete('/dataPerson/:id', async (req,res) => {
     if(!req.params.id){
       res.status(400).send(`Bad request: person with id ${req.params.id} does not exist`);
