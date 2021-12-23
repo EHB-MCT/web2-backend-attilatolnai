@@ -318,8 +318,52 @@ app.get('/dataMarket', async (req, res) => {
   });
 
   //----------------------------------------DELETE-------------------------------------------------------------
-  //app.delete('/deleteMarket', async (req,res) => {})
-  //app.delete('/deletePerson', async (req,res) => {})
+  //Delete an existing fleamarket via ID
+  app.delete('/dataMarket/:id', async (req,res) => {
+    if(!req.params.id){
+      res.status(400).send(`Bad request: fleamarket with id ${req.params.id} does not exist`);
+        return;
+    }
+    try{
+        await client.connect();
+        const colli = client.db('courseProject').collection('fleamarkets');
+
+        const bg = await colli.deleteOne({_id: ObjectId(req.params.id)});
+        res.status(201).json(result);
+        return;
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    }finally {
+        await client.close();
+    }
+});
+//Delete an existing person via ID
+  app.delete('/dataPerson/:id', async (req,res) => {
+    if(!req.params.id){
+      res.status(400).send(`Bad request: person with id ${req.params.id} does not exist`);
+        return;
+    }
+    try{
+        await client.connect();
+        const colli = client.db('courseProject').collection('persons');
+
+        const bg = await colli.deleteOne({_id: ObjectId(req.params.id)});
+        res.status(201).json(result);
+        return;
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    }finally {
+        await client.close();
+    }
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
